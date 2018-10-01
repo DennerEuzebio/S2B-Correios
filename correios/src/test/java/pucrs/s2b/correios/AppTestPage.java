@@ -10,6 +10,10 @@ public class AppTestPage {
 	@CacheLookup
 	WebElement atoz;
 	
+	@FindBy( xpath=" //*[@id=\"content-homes-a\"]/ul/li[1]/div/a")
+	@CacheLookup
+	WebElement todosItens;
+	
 	
 	
 }

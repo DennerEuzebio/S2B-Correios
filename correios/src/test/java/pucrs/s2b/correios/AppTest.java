@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AppTest {
@@ -20,22 +21,49 @@ public class AppTest {
 	private WebDriver driver;
 	AppTestPage page;
 
-	@Test
-	public void GivenInitialPageWhenSearchAToZThenClick() {
-		
-		
+	//@Test
+	public void GivenInitialPageWhenFindAToZThenClick() {
 		String id = "a_to_z";
-		WebDriverWait wait = new WebDriverWait(driver, 2);
-		WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.id(id)));
-		
-		assertNotNull(element);
-		
+		findElementByID(id);
 		page.atoz.click();
-		
+		testURL("http://www.correios.com.br/a-a-z/","Pagina Errada");
+	}
+
+	//@Test
+	public void GivenPageAToZWhenSerchMenuThenFind() {
+		page.atoz.click();
+		String id = "content-homes-a";
+		findElementByID(id);
+	}
+
+	@Test
+	public void GivenPageAToZWhenFindTodosOsItensThenClick() {
+		page.atoz.click();
+		String id = "miolo-internas";
+		findElementByID(id);
+		page.todosItens.click();
+		System.out.println(driver.getCurrentUrl());
+	}
+
+	//@Test
+	public void GivenPageTodosItensWhenSeachConteudoThenFind() {
+		page.atoz.click();
+		page.todosItens.click();
+
+		String id = "miolo-internas";
+		findElementByID(id);
+	}
+
+	public void testURL(String url, String mensagem) {
+		String expected = url;
 		String actual = driver.getCurrentUrl();
-		String expected = "http://www.correios.com.br/a-a-z/";
-		assertEquals("Pagina errada",expected, actual);
-	
+		assertEquals(mensagem, expected, actual);
+	}
+
+	public void findElementByID(String id) {
+		WebDriverWait wait = new WebDriverWait(driver, 3);
+		WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.id(id)));
+		assertNotNull("Elemento não encontrado",element);
 	}
 
 	@Before
